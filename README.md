@@ -11,6 +11,3 @@ That's it!
 
 Hope you gave a great time with your friend playing with it!
 
-
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
