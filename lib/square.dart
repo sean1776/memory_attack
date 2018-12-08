@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:memory_attack/board.dart';
 
+typedef void ChangeTurn();
+
 class Square extends StatefulWidget {
-  Square({Key key, this.oxSet, this.borderLeft, this.borderTop, this.borderRight, this.borderBottom, this.board}) : super(key: key);
-  Board board;
+  Square({Key key, this.oxSet, this.borderLeft, this.borderTop, this.borderRight, this.borderBottom, this.board, this.changeTurn}) : super(key: key);
+  Board board;  
+  final ChangeTurn changeTurn;
   List<String> oxSet;
   bool borderLeft;
   bool borderTop;
@@ -49,6 +52,8 @@ class _SquareState extends State<Square> {
 
   void checkResult(int cardId) {
     if (widget.oCount == 0 || widget.xCount == 0) return;
+
+    widget.changeTurn();
 
     if (widget.oxSet[cardId] == "O") {
       widget.oCount -= 1;
@@ -169,7 +174,7 @@ class _SquareState extends State<Square> {
         onPressed: () {
           if (!widget.leftTopShow) {
             widget.leftTopShow = true;          
-            checkResult(0);
+            checkResult(0);            
             setState((){});          
           }          
         },      

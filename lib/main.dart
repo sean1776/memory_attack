@@ -9,6 +9,7 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+  String gameTitle = 'Tic-Tac-Toe(Dark)';
   @override
   Widget build(BuildContext context) {
 
@@ -18,11 +19,11 @@ class MyApp extends StatelessWidget {
       ]);
 
     return MaterialApp(
-      title: 'Memory Attack',
+      title: gameTitle,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Memory Attack'),
+      home: MyHomePage(title: gameTitle),
     );
   }
 }
@@ -42,6 +43,8 @@ class _MyHomePageState extends State<MyHomePage> {
   String oResult = 'O';
   String xResult = 'X';
   
+  String _turn = "O";
+
   Square square_1;
   Square square_2;
   Square square_3;
@@ -51,14 +54,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Square square_7;
   Square square_8;
   Square square_9;
-
+  
   @override
   void initState() {      
       super.initState();
       _board = Board(gameOver: renderWinner);
       square_1 = square("BR"); square_2 = square("LBR"); square_3 = square("LB");
       square_4 = square("TRB"); square_5 = square("LTRB"); square_6 = square("LTB");
-      square_7 = square("TR"); square_8 = square("LTR"); square_9 = square("LT");
+      square_7 = square("TR"); square_8 = square("LTR"); square_9 = square("LT");      
     }
 
   void renderWinner(String winner) {
@@ -115,6 +118,17 @@ class _MyHomePageState extends State<MyHomePage> {
     return oxSet;
   }
 
+  void changeTurn() {
+    if (_turn == "O") {
+      _turn = "X";
+    } else {
+      _turn = "O";
+    }
+    setState(() {
+          
+        });
+  }
+
   Widget square(String border) {
     bool borderLeft = border.contains("L");
     bool borderTop = border.contains("T");
@@ -128,6 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
       borderRight: borderRight,
       borderBottom: borderBottom,     
       board: _board, 
+      changeTurn: changeTurn,
       );
   }
   
@@ -164,16 +179,26 @@ class _MyHomePageState extends State<MyHomePage> {
           Column(
             children: <Widget>[
               expand,
-              Transform.rotate(
+              Transform.rotate(                
                 angle: -pi, 
-                child: Text('$xResult', style: TextStyle(fontSize: 30.0, color: Colors.blue),),
+                child: Container(
+                  width: 300,
+                  height: 50,                  
+                  child: Text('$xResult', style: TextStyle(fontSize: 30.0, color: Colors.blue), textAlign: TextAlign.center,),
+                  decoration: BoxDecoration(border: Border.all(color: _turn == "X" ? Colors.blue : Colors.transparent, width: 1.0), borderRadius: BorderRadius.circular(20.0)),
+                ),
               ),              
               expand,
               Row(children: <Widget>[expand, square_1, square_2, square_3, expand],),
               Row(children: <Widget>[expand, square_4, square_5, square_6, expand],),
               Row(children: <Widget>[expand, square_7, square_8, square_9, expand],),
-              expand,
-              Text('$oResult', style: TextStyle(fontSize: 30.0, color: Colors.blue),),
+              expand,              
+              Container(
+                width: 300,
+                height: 50,
+                child: Text('$oResult', style: TextStyle(fontSize: 30.0, color: Colors.blue), textAlign: TextAlign.center,),
+                decoration: BoxDecoration(border: Border.all(color: _turn == "O" ? Colors.blue : Colors.transparent, width: 1.0), borderRadius: BorderRadius.circular(20.0)),                
+              ),              
               expand,
             ],
           ),       
