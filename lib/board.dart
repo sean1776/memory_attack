@@ -1,6 +1,6 @@
 
 
-typedef void GameOver(String winner);
+typedef void GameOver(String winner, int winnerLine);
 
 class Board {
 
@@ -32,37 +32,39 @@ class Board {
 
     countDown -= 1;
 
-    if (checkWinner("O")) {
+    if (checkWinner("O") != 0) {
+      int winnerLine = checkWinner("O");      
+      gameOver("O", winnerLine);
       print('winner is O');
-      gameOver("O");
       return;
     }
-    if (checkWinner("X")) {
+    if (checkWinner("X") != 0) {
+      int winnerLine = checkWinner("X");      
+      gameOver("X", winnerLine);
       print('winner is X');
-      gameOver("X");
       return;
     }
 
     if (countDown == 0) {
-      gameOver("Tie");
-      print('tie');
+      gameOver("Tie", 0);
+      print('Tie');
       return;
-    };
+    }
     
   }
 
-  bool checkWinner(String winner) {
-    if (square_1 == winner && square_2 == winner && square_3 == winner) return true;
-    if (square_4 == winner && square_5 == winner && square_6 == winner) return true;
-    if (square_7 == winner && square_8 == winner && square_9 == winner) return true;
+  int checkWinner(String winner) {
+    if (square_1 == winner && square_2 == winner && square_3 == winner) return 1;
+    if (square_4 == winner && square_5 == winner && square_6 == winner) return 2;
+    if (square_7 == winner && square_8 == winner && square_9 == winner) return 3;
 
-    if (square_1 == winner && square_4 == winner && square_7 == winner) return true;
-    if (square_2 == winner && square_5 == winner && square_8 == winner) return true;
-    if (square_3 == winner && square_6 == winner && square_9 == winner) return true;
+    if (square_1 == winner && square_4 == winner && square_7 == winner) return 4;
+    if (square_2 == winner && square_5 == winner && square_8 == winner) return 5;
+    if (square_3 == winner && square_6 == winner && square_9 == winner) return 6;
     
-    if (square_1 == winner && square_5 == winner && square_9 == winner) return true;
-    if (square_7 == winner && square_5 == winner && square_3 == winner) return true;
+    if (square_1 == winner && square_5 == winner && square_9 == winner) return 7;
+    if (square_7 == winner && square_5 == winner && square_3 == winner) return 8;
 
-    return false;
+    return 0;
   }
 }

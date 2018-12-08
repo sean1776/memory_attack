@@ -21,17 +21,53 @@ class Square extends StatefulWidget {
   int oCount = 2;
   int xCount = 2;
 
-  void disable() {
+  bool freeze = false;
+  
+  Color buttonColor = Colors.blue;
+  Color initialColor = Colors.blue;
+  Color winnerColor = Colors.red[300];
+  
+  void setWinnerSet(String winner) {
+    oxSet = [winner, winner, winner, winner];
+  }
+
+  void setAllCardsOpen(bool open) {    
+    if (open) {
+      leftTopShow = true;
+      leftDownShow = true;
+      rightTopShow = true;
+      rightDownShow = true;
+    }
+  }
+
+  void setWinnerColor() {
+    buttonColor = winnerColor;  
+      
+  }
+
+  void setInitialColor() {
+    buttonColor = initialColor;        
+  }
+
+  void refresh() {
     leftTopShow = false;
     leftDownShow = false;
     rightTopShow = false;
     rightDownShow = false;
     oCount = 2;
     xCount = 2;
+    freeze = false;
+  }
+
+  void disable() {
+    freeze = true;
   }
 
   @override
   _SquareState createState() => _SquareState();
+
+
+
 }
 
 class _SquareState extends State<Square> {
@@ -99,7 +135,7 @@ class _SquareState extends State<Square> {
     Color colorRight = innerBorder;
     Color colorBottom = innerBorder;
     BoxDecoration boxDecoration = BoxDecoration(
-      color: Colors.blue,
+      color: widget.buttonColor,
       border: Border(
         left: BorderSide(color: colorLeft), 
         top: BorderSide(color: colorTop), 
@@ -116,7 +152,7 @@ class _SquareState extends State<Square> {
     Color colorRight = innerBorder;
     Color colorBottom = widget.borderBottom ? outerBorder : innerBorder;
     BoxDecoration boxDecoration = BoxDecoration(
-      color: Colors.blue,
+      color: widget.buttonColor,
       border: Border(
         left: BorderSide(color: colorLeft), 
         top: BorderSide(color: colorTop), 
@@ -133,7 +169,7 @@ class _SquareState extends State<Square> {
     Color colorRight = widget.borderRight ? outerBorder : innerBorder;
     Color colorBottom = innerBorder;
     BoxDecoration boxDecoration = BoxDecoration(
-      color: Colors.blue,
+      color: widget.buttonColor,
       border: Border(
         left: BorderSide(color: colorLeft), 
         top: BorderSide(color: colorTop), 
@@ -150,7 +186,7 @@ class _SquareState extends State<Square> {
     Color colorRight = widget.borderRight ? outerBorder : innerBorder;
     Color colorBottom = widget.borderBottom ? outerBorder : innerBorder;
     BoxDecoration boxDecoration = BoxDecoration(
-      color: Colors.blue,
+      color: widget.buttonColor,
       border: Border(
         left: BorderSide(color: colorLeft), 
         top: BorderSide(color: colorTop), 
@@ -161,6 +197,8 @@ class _SquareState extends State<Square> {
     return boxDecoration;
   }
 
+
+
   void setButton() {
     leftTop = Container(
       width: 50.0,
@@ -168,15 +206,15 @@ class _SquareState extends State<Square> {
       decoration: getLeftTopButtonDecoration(),
       child: FlatButton(      
         child: Text(widget.oxSet[0]),
-        color: Colors.blue,        
-        textColor: widget.leftTopShow ? Colors.white : Colors.blue,
-        highlightColor: Colors.blue,
+        color: widget.buttonColor,        
+        textColor: widget.leftTopShow ? Colors.white : widget.buttonColor,
+        highlightColor: widget.buttonColor,
         onPressed: () {
-          if (!widget.leftTopShow) {
+          if (!widget.freeze && !widget.leftTopShow) {
             widget.leftTopShow = true;          
-            checkResult(0);            
-            setState((){});          
-          }          
+            checkResult(0);                        
+            setState((){});       
+          }                       
         },      
       ),
     );
@@ -186,14 +224,14 @@ class _SquareState extends State<Square> {
       decoration: getLeftDownButtonDecoration(),
       child: FlatButton(        
         child: Text(widget.oxSet[1]),
-        color: Colors.blue, 
-        textColor: widget.leftDownShow ? Colors.white : Colors.blue,
+        color: widget.buttonColor, 
+        textColor: widget.leftDownShow ? Colors.white : widget.buttonColor,
         onPressed: () {
-          if (!widget.leftDownShow) {
+          if (!widget.freeze && !widget.leftDownShow) {
             widget.leftDownShow = true;
-            checkResult(1);
-            setState((){});          
-          }          
+            checkResult(1);            
+            setState((){});         
+          }                     
         },
       ),
     );
@@ -203,14 +241,14 @@ class _SquareState extends State<Square> {
       decoration: getRightTopButtonDecoration(),
         child: FlatButton(
           child: Text(widget.oxSet[2]),
-          color: Colors.blue, 
-          textColor: widget.rightTopShow ? Colors.white : Colors.blue,
+          color: widget.buttonColor, 
+          textColor: widget.rightTopShow ? Colors.white : widget.buttonColor,
           onPressed: () {
-            if (!widget.rightTopShow) {
+            if (!widget.freeze && !widget.rightTopShow) {
               widget.rightTopShow = true;
-              checkResult(2);
-              setState((){});
-            }            
+              checkResult(2);              
+              setState((){});         
+            }               
           },
         ),
       );
@@ -220,22 +258,22 @@ class _SquareState extends State<Square> {
       decoration: getRightDownButtonDecoration(),
       child: FlatButton(
         child: Text(widget.oxSet[3]),
-        color: Colors.blue, 
-        textColor: widget.rightDownShow ? Colors.white : Colors.blue,
+        color: widget.buttonColor, 
+        textColor: widget.rightDownShow ? Colors.white : widget.buttonColor,
         onPressed: () {
-          if (!widget.rightDownShow) {
+          if (!widget.freeze && !widget.rightDownShow) {
             widget.rightDownShow = true;
-            checkResult(3);
+            checkResult(3);            
             setState((){});          
-          }
+          }          
         },
       ),
     );
   }
-  
+
   @override
   Widget build(BuildContext context) {    
-    setButton();
+    setButton();    
     return Column(
       children: <Widget>[
         Row(children: <Widget>[leftTop, rightTop],),
