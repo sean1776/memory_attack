@@ -28,7 +28,7 @@ dev_dependencies:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "submit_file/Page 1icon-app-1024@1x.png"
+  image_path: "submit_file/Icon/MemoryAttack1024pt@1x.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
@@ -43,7 +43,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-   - submit_file/Page 1icon-app-1024@1x.png
+   - submit_file/Icon/MemoryAttack1024pt@1x.png
   # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
